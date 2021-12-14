@@ -15,6 +15,47 @@ unsigned int xorbuf(unsigned int *buffer, int size)
     return result;
 }
 
+void readUtil(int fd, char *filename, size_t block_size, size_t block_count)
+{
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+    {
+        perror("r1");
+        exit(1);
+    }
+
+    unsigned int xor = 0;
+
+    unsigned int *buf = malloc(block_size);
+
+    // read
+    for (int i = 0; i < block_count; i++)
+    {
+        ssize_t read_size = read(fd, buf, block_size);
+
+        if (read_size < 0)
+        {
+            perror("r3");
+            exit(1);
+        }
+        ssize_t numOfIntSize = read_size / sizeof(int);
+        for (ssize_t j = 0; j < numOfIntSize; j++)
+        {
+            xor ^= buf[j];
+        }
+
+        // printf("%zu \n", read_size); // DELETE
+    }
+
+    // free
+    free(buf);
+
+    //print xor
+    printf("xor is %08x \n", xor);
+
+    close(fd);
+}
+
 // * ./run <filename> [-r|-w] <block_size> <block_count>
 int main(int argc, char *argv[])
 {
@@ -41,45 +82,12 @@ int main(int argc, char *argv[])
 
     // char buf[block_size];
 
-    if (strcmp(mode, "-r") == 0) {
-        fd = open(filename, O_RDONLY);
-        if (fd < 0)
-        {
-            perror("r1");
-            exit(1);
-        }
-
-        unsigned int xor = 0;
-
-        unsigned int *buf = malloc(block_size);
-
-        // read
-        for (int i = 0; i < block_count; i++)
-        {
-            ssize_t read_size = read(fd, buf, block_size);
-
-            if (read_size < 0)
-            {
-                perror("r3");
-                exit(1);
-            }
-            ssize_t numOfIntSize = read_size / sizeof(int);
-            for (ssize_t j = 0; j < numOfIntSize; j++)
-            {
-                xor ^= buf[j];
-            }
-
-            // printf("%zu \n", read_size); // DELETE
-        }
-
-        // free
-        free(buf);
-
-        //print xor
-        printf("xor is %08x \n", xor);
-
-        close(fd);
-    } else if (strcmp(mode, "-w") == 0) {
+    if (strcmp(mode, "-r") == 0)
+    {
+        readUtil(fd, filename, block_size, block_count);
+    }
+    else if (strcmp(mode, "-w") == 0)
+    {
         fd = open(filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
         if (fd < 0)
         {
@@ -89,7 +97,8 @@ int main(int argc, char *argv[])
 
         unsigned int *buf = malloc(block_size);
 
-        for (int i = 0; i < block_count; i++) {
+        for (int i = 0; i < block_count; i++)
+        {
             ssize_t write_size = write(fd, buf, block_size);
             if (write_size < 0)
             {
@@ -103,7 +112,9 @@ int main(int argc, char *argv[])
         free(buf);
 
         close(fd);
-    } else {
+    }
+    else
+    {
         printf("%s\n", "Invalid argument");
     }
 
