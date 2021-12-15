@@ -43,7 +43,7 @@ void readUtil(char *filename, size_t block_size, size_t block_count)
     free(buf);
 
     //print xor
-    printf("xor is %08x \n", xor);
+    // printf("xor is %08x \n", xor);
 
     close(fd);
 }
@@ -78,12 +78,14 @@ int main(int argc, char *argv[])
     // loop until runtime falls between 5 - 15 seconds
     while (time < 5)
     {
-        printf("time: %f \n", time);
+        // printf("time: %f \n", time);
         block_count *= 2.0;
         time = countTime(filename, block_size, block_count);
     }
     // printf("time: %f \n", time);
-    printf("given block_size %zu, our program can read block_count: %zu in %f seconds \n", block_size, block_count, time);
+    printf("Given block_size %zu (%f MB), our program can read block_count: %zu in %f seconds \n", block_size, (block_size / 1024.0 / 1024.0), block_count, time);
+    printf("File size read %zu bytes (%f GB) \n", block_size * block_count, (block_size * block_count / (1024.0 * 1024.0 * 1024.0)));
+    printf("Reading speed is: %f Mib/s \n", (block_size * block_count) / (1024.0 * 1024.0 * time));
 
     exit(0);
 }
