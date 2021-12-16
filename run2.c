@@ -19,15 +19,14 @@ void readUtil(char *filename, size_t block_size, size_t block_count)
     unsigned int xor = 0;
 
     unsigned int *buf = malloc(block_size);
+    ssize_t read_size;
 
     // read
     for (int i = 0; i < block_count; i++)
     {
-        ssize_t read_size = read(fd, buf, block_size);
-        if (read_size < 0)
+
+        while ((read_size = read(fd, buf, block_size)) > 0)
         {
-            perror("r3");
-            exit(1);
         }
     }
 
@@ -65,16 +64,21 @@ int main(int argc, char *argv[])
     double time = 0;
 
     // loop until runtime falls between 5 - 15 seconds
-    while (time < 5)
+    while (time < 3 && (block_size * block_count * 2 <= 4294967296))
     {
         // printf("time: %f \n", time);
         block_count *= 2.0;
         time = countTime(filename, block_size, block_count);
+        // printf("Time %f \n", time);
+        // printf("File size: %f GB \n", (block_size * block_count) / (double)(1024 * 1024 * 1024));
+        // printf("File size: %lu Bytes \n", (block_size * block_count));
     }
-    // printf("time: %f \n", time);
+    printf("time: %f \n", time);
     printf("Given block_size %zu (%f MB), our program can read block_count: %zu in %f seconds \n", block_size, (block_size / 1024.0 / 1024.0), block_count, time);
     printf("File size read %zu bytes (%f GB) \n", block_size * block_count, (block_size * block_count / (1024.0 * 1024.0 * 1024.0)));
     printf("Reading speed is: %f Mib/s \n", (block_size * block_count) / (1024.0 * 1024.0 * time));
+
+    // printf("Block Size: %zu        Block Count: %zu \n", block_size, block_count);
 
     exit(0);
 }
