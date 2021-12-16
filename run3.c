@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
     printf("Given block_size %zu (%f MB), our program can read block_count: %zu in %f seconds \n", block_size, (block_size / 1024.0 / 1024.0), block_count, runningTime);
     printf("File size read %zu bytes (%f GB) \n", block_size * block_count, (block_size * block_count / (1024.0 * 1024.0 * 1024.0)));
     printf("Reading speed is: %f Mib/s \n", (block_size * block_count) / (1024.0 * 1024.0 * runningTime));
+    printf("Reading speed is: %f B/s \n", (block_size * block_count) / (runningTime));
 
     exit(0);
 }
