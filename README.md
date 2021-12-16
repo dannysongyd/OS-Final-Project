@@ -5,6 +5,13 @@
 1. Danny Song - ys4242
 2. Wenbo Nan - wn391
 
+## Requirements
+
+- macOS
+- 16GB RAM
+- 10 GB Free Disk Space
+- If you want to use your onw file for testing, please change the FILENAME variable in every script file and command-line input accordingly
+
 ## How to compile
 
 ### 1. Get permission on the script files
@@ -34,6 +41,8 @@ File craeted
 ```
 
 ## Part 2
+
+This script will creates a 4GB File as well as downloads the ubuntu image from http://www.releases.ubuntu.com/21.04/ubuntu-21.04-desktop-amd64.iso
 
 ```
 ./part2.sh
