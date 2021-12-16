@@ -24,26 +24,15 @@ void readUtil(char *filename, size_t block_size, size_t block_count)
     for (int i = 0; i < block_count; i++)
     {
         ssize_t read_size = read(fd, buf, block_size);
-
         if (read_size < 0)
         {
             perror("r3");
             exit(1);
         }
-        ssize_t numOfIntSize = read_size / sizeof(int);
-        for (ssize_t j = 0; j < numOfIntSize; j++)
-        {
-            xor ^= buf[j];
-        }
-
-        // printf("%zu \n", read_size); // DELETE
     }
 
     // free
     free(buf);
-
-    //print xor
-    // printf("xor is %08x \n", xor);
 
     close(fd);
 }

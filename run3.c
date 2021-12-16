@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
 void readUtil(char *filename, size_t block_size, size_t block_count)
 {
@@ -22,21 +23,17 @@ void readUtil(char *filename, size_t block_size, size_t block_count)
     for (int i = 0; i < block_count; i++)
     {
         ssize_t read_size = read(fd, buf, block_size);
-
         if (read_size < 0)
         {
             perror("r3");
             exit(1);
         }
-        ssize_t numOfIntSize = read_size / sizeof(int);
     }
 
     // free
     free(buf);
-
     close(fd);
 }
-
 double countTime(char *filename, size_t block_size, size_t block_count)
 {
 
