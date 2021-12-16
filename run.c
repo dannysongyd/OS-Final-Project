@@ -106,11 +106,10 @@ int main(int argc, char *argv[])
                 perror("r3");
                 exit(1);
             }
-
-            printf("%zu \n", write_size); // DELETE
         }
 
         free(buf);
+        printf("File craeted\n");
 
         close(fd);
     }
