@@ -1,1 +1,0 @@
-void readUtil(char *filename, size_t block_size, size_t block_count);

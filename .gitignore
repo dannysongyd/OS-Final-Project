@@ -7,6 +7,12 @@
 *.obj
 *.elf
 
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
 # Linker output
 *.ilk
 *.map
